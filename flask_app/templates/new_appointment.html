@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Appointment</title>
+    <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <header class="d-flex justify-content-between align-items-center">
+            <h1> Hello, {{user.first_name}}!!</h1>
+            <a href="/dashboard" class="btn btn-info">Appointments</a>
+            <a href="/logout" class="btn btn-danger">Log Out</a>
+        </header>
+        {% with messages = get_flashed_messages(category_filter = ['citas']) %}
+                        {% if messages %}
+                            <div class="alert alert-danger">
+                                {% for message in messages %}
+                                    <p>{{message}}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+        {% endwith %}                
+        <form action="/create/appointment" method="post">
+            <div class="form-group">
+                <h2>Add an appointment</h2>
+                <label for="tasks">Tasks</label>
+                <input type="text" id="tasks" name="tasks" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="date" id="date" name="date" class="form-control">
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select id="status" name="status" class="form-select">
+                    <option>Pending</option>
+                    <option>Missed</option>
+                    <option>Done</option>   
+                </select>
+            </div>
+            <br>
+            <input type="hidden" name="user_id" value="{{session.user_id}}">
+            <input type="submit" class="btn btn-success" value="Add">
+        </form>
+    </div>
